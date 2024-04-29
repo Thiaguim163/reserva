@@ -1,0 +1,12 @@
+{
+  "name": "reserva",
+  "version": "1.0.0",
+  "description": "Projeto criado na Linguagem de Programação\r Curso: Técnico de Informatica Integrado ao Ensino Medio\r Instituto federal de São Paulo - Cânpus Caraguatatuba",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
