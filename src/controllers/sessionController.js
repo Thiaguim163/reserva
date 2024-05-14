@@ -10,5 +10,20 @@ import User from "../models/User";
 import * as Yup from "yup";
 
 class SessionControler {
-  async store(req, res) {}
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      email: Yup.string().email().required(),
+    });
+    const { email } = req.body;
+    if (!(await schema.isValid(req.body))) {
+      return req.status(400).json({ error: "Falha na validação" });
+    }
+    let user = await User.findOne9({ email });
+    if (!user) {
+      user = await User.create({ email });
+    }
+    return res.json(user);
+  }
 }
+
+export default new SessionController
