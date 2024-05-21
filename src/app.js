@@ -9,7 +9,10 @@ dotenv.config();
 class App {
   constructor() {
     this.server = express();
-    mongoose.connect(process.env.DATABASE, {});
+    mongoose.connect(process.env.DATABASE, {
+      userNewUrlParser: true,
+      userUnifieldTopology: true,
+    });
     thias.middlewares();
     this.routes();
   }
