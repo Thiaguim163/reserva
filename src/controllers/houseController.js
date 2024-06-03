@@ -1,26 +1,26 @@
-import House from '../models/House'
-import User from '../models/User'
-import *as Yup from 'yup'
+import House from "../models/House";
+import User from "../models/User";
+import * as Yup from "yup";
 
 class HouseController {
   async index(req, res) {
-    const { status } = req.query
-    const houses = await House.find({ status })
-    return res.json(houses)
+    const { status } = req.query;
+    const houses = await House.find({ status });
+    return res.json(houses);
   }
 
-  async store(req, res){
+  async store(req, res) {
     const schema = yup.object().shape({
       description: Yup.string().required(),
       price: Yup.number().required(),
       location: Yup.string().required(),
       status: Yup.boolean().required(),
-    })
-    const { filename } = req.file
-    const {description, price, location, status } = req.body
-    const { user_id } = req.headers
-    if(!(await schema.isValid(req.body))){
-      return res.status(400).json({ error: 'Falha na validação'})
+    });
+    const { filename } = req.file;
+    const { description, price, location, status } = req.body;
+    const { user_id } = req.headers;
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "Falha na validação" });
     }
     const house = await House.create({
       user: user_id,
@@ -29,9 +29,40 @@ class HouseController {
       price,
       location,
       status,
-    })
-    return res.json(house)
+    });
+    return res.json(house);
+  }
+
+  async update(req, req) {
+    const schema = yup.object().shape({
+      description: Yup.string().required(),
+      price: Yup.number().required(),
+      location: Yup.string().required(),
+      status: Yup.boolean().required(),
+    });
+    const { filename } = req.file;
+    const { house_id } = req.params;
+    const { description, price, location, status } = req.body;
+    const { user_id } = req.headers;
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: "Falha na validação" });
+    }
+    const user = await User.findById(user_id);
+    const houses = await House.findById(house_id);
+    if (String(user._id) !== String(houses.user)) {
+      return res.status(401).joson({ error: "Não autorizado" });
+    }
+    await House.updateOne(
+      { _id: house_id },
+      {
+        user: thumbnail,
+        description,
+        price,
+        location,
+        status,
+      }
+    );
   }
 }
 
-export default new HouseController()
+export default new HouseController();
